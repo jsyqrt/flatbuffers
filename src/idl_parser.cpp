@@ -3667,7 +3667,7 @@ static bool DeserializeAttributesCommon(
     if (kv->value()) { value->constant = kv->value()->str(); }
     if (attributes.Add(kv->key()->str(), value)) {
       delete value;
-      return false;
+      continue;
     }
     parser.known_attributes_[kv->key()->str()];
   }
@@ -3857,6 +3857,7 @@ bool FieldDef::Deserialize(Parser &parser, const reflection::Field *field) {
     if (!nested_flatbuffer) return false;
   }
   shared = attributes.Lookup("shared") != nullptr;
+  deprecated = attributes.Lookup("deprecated") != nullptr;
   DeserializeDoc(doc_comment, field->documentation());
   return true;
 }
